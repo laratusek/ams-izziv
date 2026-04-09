@@ -1,33 +1,49 @@
-FROM pytorch/pytorch:2.1.2-cuda12.1-cudnn8-runtime
-
-WORKDIR /workspace
+# Uporabimo zahtevano verzijo PyTorch in CUDA
+#FROM pytorch/pytorch:2.0.1-cuda11.8-cudnn8-runtime
+FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-devel
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=Etc/UTC
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
 
+# Nastavitev delovnega imenika
+WORKDIR /workdir
+
+# Namestitev sistemskih odvisnosti za OpenCV in urejanje datotek
 RUN apt-get update && apt-get install -y \
     git \
-    wget \
-    curl \
-    nano \
+    libgl1-mesa-glx \
     libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender1 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --no-cache-dir \
-    numpy \
-    scipy \
-    scikit-image \
-    matplotlib \
-    pandas \
-    tqdm \
-    nibabel \
-    SimpleITK \
-    opencv-python \
-    pyyaml
+# Nadgradnja pip in namestitev osnovnih paketov
+RUN pip install --upgrade pip
 
-CMD ["bash"]
+# Namestitev specifičnih verzij za STUNet
+RUN pip install numpy \
+    nibabel \
+    scipy \
+    timm==0.6.12 \
+    torchinfo \
+    SimpleITK \
+    batchgenerators==0.25 \
+    nnunet-customized  # STUNet pogosto zahteva svojo verzijo nnU-Net
+
+# ... (prejšnji del z bazno sliko in sistemskimi knjižnicami ostane enak)
+
+# 1. Kloniranje repozitorija iz slike
+RUN git clone https://github.com/uni-medical/STU-Net.git /workdir/STU-Net
+
+# 2. Premik v mapo nnUNet-2.2 in namestitev v "editable" načinu
+
+WORKDIR /workdir/STU-Net/nnUNet-2.2
+
+RUN pip install -e .
+
+# 3. Nastavitev okoljskih spremenljivk za nnU-Net v2
+# Pozor: v2 uporablja nekoliko drugačna imena spremenljivk kot v1!
+ENV nnUNet_raw="/workdir/nnUNet_raw"
+ENV nnUNet_preprocessed="/workdir/nnUNet_preprocessed"
+ENV nnUNet_results="/workdir/nnUNet_results"
+
+# Vrnitev v korensko mapo repozitorija za lažji zagon skript
+WORKDIR /workdir/STU-Net
+
