@@ -27,8 +27,6 @@ RUN pip install numpy \
     batchgenerators==0.25 \
     nnunet-customized  # STUNet pogosto zahteva svojo verzijo nnU-Net
 
-# ... (prejšnji del z bazno sliko in sistemskimi knjižnicami ostane enak)
-
 # 1. Kloniranje repozitorija iz slike
 RUN git clone https://github.com/uni-medical/STU-Net.git /workdir/STU-Net
 
@@ -45,5 +43,5 @@ ENV nnUNet_preprocessed="/workdir/nnUNet_preprocessed"
 ENV nnUNet_results="/workdir/nnUNet_results"
 
 # Vrnitev v korensko mapo repozitorija za lažji zagon skript
-WORKDIR /workdir/STU-Net
+WORKDIR /workdir
 
