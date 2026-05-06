@@ -1,0 +1,16 @@
+{
+    "dataset_name_or_id": "Dataset001_ImageCAS",
+    "configuration": "3d_fullres",
+    "fold": 0,
+    "trainer_class_name": "STUNetTrainer_base_ft",
+    "plans_identifier": "nnUNetPlans",
+    "pretrained_weights": "code/base_ep4k.model",
+    "num_gpus": 1,
+    "use_compressed_data": false,
+    "export_validation_probabilities": false,
+    "continue_training": false,
+    "only_run_validation": false,
+    "disable_checkpointing": false,
+    "val_with_best": false,
+    "device": "cuda"
+}
