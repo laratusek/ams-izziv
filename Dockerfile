@@ -18,14 +18,17 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --upgrade pip
 
 # Namestitev specifičnih verzij za STUNet
-RUN pip install numpy \
+RUN pip install "numpy<2" \
     nibabel \
     scipy \
     timm==0.6.12 \
     torchinfo \
     SimpleITK \
     batchgenerators==0.25 \
-    nnunet-customized  # STUNet pogosto zahteva svojo verzijo nnU-Net
+    nnunetv2==2.2 \
+    #nnunet-customized \
+    gdown \
+    matplotlib
 
 # 1. Kloniranje repozitorija iz slike
 RUN git clone https://github.com/uni-medical/STU-Net.git /workdir/STU-Net
@@ -37,10 +40,9 @@ WORKDIR /workdir/STU-Net/nnUNet-2.2
 RUN pip install -e .
 
 # 3. Nastavitev okoljskih spremenljivk za nnU-Net v2
-# Pozor: v2 uporablja nekoliko drugačna imena spremenljivk kot v1!
-ENV nnUNet_raw="/workdir/nnUNet_raw"
-ENV nnUNet_preprocessed="/workdir/nnUNet_preprocessed"
-ENV nnUNet_results="/workdir/nnUNet_results"
+ENV nnUNet_raw="/workdir/data/nnUNet_raw"
+ENV nnUNet_preprocessed="/workdir/data/nnUNet_preprocessed"
+ENV nnUNet_results="/workdir/code/nnUNet_results_new"
 
 # Vrnitev v korensko mapo repozitorija za lažji zagon skript
 WORKDIR /workdir
