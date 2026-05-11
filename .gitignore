@@ -6,7 +6,14 @@
 FLARE22/
 nnUNet_results_bck/
 nnUNet_results_new/
+nnUNet_results_FLARE22/
 
+###Files###
+check_dim.py
+check_dim2.py
+clear.py
+nalaganje.py
+prepare_dataset.py
 
 ### Images ###
 # JPEG
