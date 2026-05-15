@@ -28,7 +28,8 @@ RUN pip install "numpy<2" \
     nnunetv2==2.2 \
     #nnunet-customized \
     gdown \
-    matplotlib
+    matplotlib \
+    connected-components-3d
 
 # 1. Kloniranje repozitorija iz slike
 RUN git clone https://github.com/uni-medical/STU-Net.git /workdir/STU-Net
