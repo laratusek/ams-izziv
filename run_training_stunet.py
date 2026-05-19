@@ -15,7 +15,7 @@ def main():
                         help='specify a custom trainer')
     parser.add_argument('-pretrained_weights', type=str, required=False, default="code/base_ep4k.model",
                         help='stunet pretrained weights path')
-    parser.add_argument('-p', '--plan_id', type=str, required=False, default='nnUNetPlans_custom',
+    parser.add_argument('-p', '--plan_id', type=str, required=False, default='nnUNetPlans',
                         help='specify a custom plan')
 
     args = parser.parse_args()

@@ -2,11 +2,11 @@ import subprocess
 import argparse
 
 def main():
-    parser = argparse.ArgumentParser(description="Zagon STU-Net napovedovanja (inference).")
+    parser = argparse.ArgumentParser(description="Zagon inference.")
 
     # Definiranje argumentov na podlagi tvojega ukaza
-    parser.add_argument("-i", "--input", default="data/imagesTs_test", help="Vhodna mapa s slikami")
-    parser.add_argument("-o", "--output", default="data/predictions/stunet_test", help="Izhodna mapa za rezultate")
+    parser.add_argument("-i", "--input", default="", help="Vhodna mapa s slikami")
+    parser.add_argument("-o", "--output", default="", help="Izhodna mapa za rezultate")
     parser.add_argument("-d", "--dataset", default="1", help="ID nabora podatkov (npr. 1)")
     parser.add_argument("-tr", "--trainer", default="STUNetTrainer_base_ft", help="Ime uporabljene trainer klase")
     parser.add_argument("-c", "--config", default="3d_fullres", help="Konfiguracija (npr. 3d_fullres)")
