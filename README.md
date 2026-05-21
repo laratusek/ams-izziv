@@ -48,20 +48,19 @@ Rezultati za klasične in topološke metrike so zbrani v tabeli.
 
 </div>
 
-<p align="center">
-  <figure style="text-align: center;">
-    <img src="img_metrics.png" alt="Potek učenja STU-Net modela" width="550">
-    <figcaption>Potek učenja STU-Net modela</figcaption>
-  </figure>
-</p>
+<div align="center">
+  <img src="img_metrics.png" width="550"/>
+  <br>
+  <em>Potek učenja STU-Net modela</em>
+</div>
 
+<br>
 
-<p align="center">
-  <figure style="text-align: center;">
-    <img src="img_slicer.png" alt="Prikaz segmentacije v programu 3D slicer" width="550">
-    <figcaption>Prikaz segmentacije v programu 3D Slicer</figcaption>
-  </figure>
-</p>
+<div align="center">
+  <img src="img_slicer.png" width="550"/>
+  <br>
+  <em>Prikaz segmentacije v programu 3D Slicer</em>
+</div>
 
 ---
 ## Zagon projekta
