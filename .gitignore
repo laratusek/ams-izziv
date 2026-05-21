@@ -49,7 +49,7 @@ prepare_dataset.py
 *.webp
 
 # Portable Network Graphics
-*.png
+
 
 # Animated Portable Network Graphics
 *.apng
