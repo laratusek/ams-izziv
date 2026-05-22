@@ -1,7 +1,7 @@
-# AMS Izziv 2025 - metoda STU-Net
+# AMS Izziv 2025 - STU-Net
 Avtor: Lara Tušek Oklobdžija
 
-V sklopu projekta je bilo izvedeno fino učenje, inferenca in evalvacija modelov STU-Net in nnUNet za segmentacijo koronarnih arterij na podatkovni zbirki ImageCAS.
+V sklopu projekta je bilo izvedeno fino učenje, inferenca in evalvacija modela STU-Net in primerjava z nnUNet za segmentacijo koronarnih arterij na podatkovni zbirki ImageCAS.
 
 
 Struktura projekta je naslednja:
@@ -31,13 +31,35 @@ Struktura projekta je naslednja:
 
 ---
 
-## Pregled rezultatov
+## Pregled projekta
 
-Za učenje modelov je bila uporabljena razdelitev podatkov v splits_final_200.json (200 učnih + 40 validacijskih primerov). 
+### Učenje modelov
 
-Modela sta bila testirana na 60 testnih primerih (ID 751-810). Napovedi za oba modela se nahajajo znotraj mape data_test/predictions.
+Modela sta bila učena na 240 primerih iz podatkovne zbirke ImageCAS.
 
-Rezultati za klasične in topološke metrike so zbrani v tabeli.
+Skupno za STU-Net in nnunetv2:
+- dataset: Dataset001_ImageCAS
+- split: splits_final_200.json (200 učnih + 40 validacijskih primerov)
+- fold: 0
+- konfiguracija: 3d_fulllres
+
+STU-Net:
+- uporaba prednaučenih uteži STU-Net-B (shranjene v code/base_ep4k.model)
+- custom trainer: STUNetTrainer_base_ft
+
+<div align="center">
+  <img src="img_metrics.png" width="550"/>
+  <br>
+  <em>Potek učenja STU-Net modela</em>
+</div>
+
+
+
+### Rezultati
+
+Modela sta bila testirana na 60 testnih primerih (ID 751-810). Napovedi za oba modela se nahajajo znotraj mape data_test/Dataset001_ImageCAS/predictions.
+
+Rezultati za standardne in topološke metrike so zbrani v tabeli.
 
 <div align="center">
 
@@ -48,18 +70,11 @@ Rezultati za klasične in topološke metrike so zbrani v tabeli.
 
 </div>
 
-<div align="center">
-  <img src="img_metrics.png" width="550"/>
-  <br>
-  <em>Potek učenja STU-Net modela</em>
-</div>
-
-<br>
 
 <div align="center">
   <img src="img_slicer.png" width="550"/>
   <br>
-  <em>Prikaz segmentacije v programu 3D Slicer</em>
+  <em>Primer napovedane segmentacije koronarnih arterij s STU-Net (prikaz v 3D Slicer)</em>
 </div>
 
 ---
@@ -75,7 +90,9 @@ docker build -t larat_amsizziv .
 Nalaganje prednaučenih uteži STU-Net-B:
 
 ```bash
-docker run --rm -it --gpus 'device=0' --shm-size=16g -v "$(pwd)":/workdir larat_amsizziv python code/load_weights.py
+docker run --rm -it --gpus 'device=0' --shm-size=16g \
+-v "$(pwd)/code":/workdir/code \
+larat_amsizziv python code/load_weights.py
 ```
 
 ### Fino učenje STU-Net-B
@@ -138,9 +155,11 @@ docker run --rm -it --gpus 'device=0' --shm-size=16g \
 larat_amsizziv python code/run_inference.py -i 'data_test/Dataset001_ImageCAS/imagesTs' -o 'data_test/Dataset001_ImageCAS/predictions/imagesTs_pred_nnunet' -d 1
 ```
 
-Priprava testnih podatkov s skripto:
+Priprava testnih podatkov v nnunet formatu s skripto:
+
 ```bash
 docker run --rm -it --gpus 'device=0' --shm-size=16g \
+-v /media/FastDataMama/izziv/data:/workdir/data \
 -v "$(pwd)/code":/workdir/code \
 -v "$(pwd)/data_test":/workdir/data_test \
 larat_amsizziv python code/prepare_test_data.py
